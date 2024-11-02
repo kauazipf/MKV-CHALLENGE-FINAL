@@ -21,11 +21,11 @@ export default function Header(){
 
     return(
         <header className="max-h-[50vh] max-w-[100vw] bg-backgroundBlue relative p-14 text-center"> 
-            <Image src={imgMenu} alt="Imagem de menu" onClick={toggleMenu} className="w-20 absolute top-16"/>
+            <Image src={imgMenu} alt="Imagem de menu" onClick={toggleMenu} className="w-20 absolute top-16 invert"/>
 
             <Image src={logo} alt="Imagem da logo" className="w-28 inline-block"/>
 
-            <Link href='/login'> <Image src={imgLogin} alt="Imagem de login" className="w-20 right-20 absolute top-16"/> </Link>
+            <Link href='/login'> <Image src={imgLogin} alt="Imagem de login" className="w-20 right-20 absolute top-16 invert"/> </Link>
             <div style={menuStyle} className=" absolute p-12 z-auto bg-backgroundBlue text-2xl">
                 <Link href='/' className="p-6 font-semibold text-white text-left block"> Home </Link>
                 <Link href='/Carros' className="p-6 font-semibold text-white text-left block"> Carros </Link>
