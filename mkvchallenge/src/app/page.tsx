@@ -10,8 +10,8 @@ export default function Home(){
                     <Image src={banner} alt='Banner da Porto Seguro'/>
                 </div>
 
-                <div>
-                    <p> Nossa solução, seria a MVK Ltda, uma empresa que representa uma abordagem inovadora para otimizar o
+                <div className='flex justify-center items-center top-20 m-12 p-16 gap-16 max-w-[100vw]'>
+                    <p className='justify text-2xl'> Nossa solução, seria a MVK Ltda, uma empresa que representa uma abordagem inovadora para otimizar o
                         processo de reparação automotiva em parceria com a Porto Seguro. Este
                         documento detalha como nossa solução pode resolver os desafios enfrentados atualmente pela Porto Seguro.
                         A MVK Ltda é uma plataforma online que
