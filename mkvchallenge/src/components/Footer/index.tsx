@@ -15,6 +15,7 @@ export default function Footer(){
 
             <nav>
                 <Link href='/'> Home </Link>
+                |
                 <Link href='/Participantes'> Sobre </Link>
             </nav>
             <p>© 2024 MKV Ltda. Todos os direitos reservados.</p>

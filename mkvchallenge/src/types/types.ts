@@ -7,9 +7,3 @@ export type CarrosProps = {
     ano: string;
     imagem: string
   };
-
-export type IntegrantesProps = {
-    nome: string;
-    rm: string;
-    github: string;
-};
