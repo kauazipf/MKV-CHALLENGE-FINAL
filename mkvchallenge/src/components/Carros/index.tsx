@@ -11,7 +11,7 @@ export default function Carros() {
     const [carros, setProdutos] = useState<CarrosProps[]>([]);
     
     const chamadaApi = async ()=>{
-        const response = await fetch("/api/base-produtos");
+        const response = await fetch("/api/seguroExpress");
         const data = await response.json();
         
         setProdutos(data);
@@ -23,7 +23,7 @@ export default function Carros() {
 
 const handleDelete = async (id:number)=>{
     try {
-        const response = await fetch(`/api/base-produtos/${id}`,{
+        const response = await fetch(`/api/seguroExpress/${id}`,{
             method: 'DELETE',
         });
         if (response.ok) {
@@ -44,7 +44,9 @@ const handleDelete = async (id:number)=>{
                     <tr>
                         <th>ID</th>
                         <th>NOME</th>
-                        <th>PRECO</th>
+                        <th>MARCA</th>
+                        <th>COR</th>
+                        <th>ANO</th>
                         <th>IMAGEM</th>
                         <th>EDITAR | EXCLUIR</th>
                     </tr>
