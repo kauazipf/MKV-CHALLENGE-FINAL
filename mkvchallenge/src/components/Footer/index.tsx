@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export default function Footer(){
     return(
-        <footer className='bg-backgroundBlue text-white text-center p-3 text-xl max-h-[22vh] w-[99vw] bottom-0'>
+        <footer className='bg-backgroundBlue text-white text-center p-3 text-xl max-h-[22vh] w-[100vw] bottom-0'>
             <nav>
                 <ul className='flex justify-center gap-8 p-8 top-6'> 
                    <li> <a href="mailto:mktltda3@gmail.com" target='_blank'> <Image src={logoGmail} alt="Icone do Gmail" className='w-14'/> </a> </li> 

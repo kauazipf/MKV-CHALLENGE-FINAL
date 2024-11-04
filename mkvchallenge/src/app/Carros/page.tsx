@@ -42,7 +42,7 @@ const handleDelete = async (id:number)=>{
 
     return (
         <div>
-            <table className="w-[99vw] text-center h-[60vh]">
+            <table className="w-[80vw] text-center h-[60vh] m-24 text-xl">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -55,16 +55,16 @@ const handleDelete = async (id:number)=>{
                     </tr>
                 </thead>
                 <tbody>
-                    {carros.map((p) => (
-                        <tr key={p.id}>
-                            <td>{p.id}</td>
-                            <td>{p.nome}</td>
-                            <td>{p.marca}</td>
-                            <td>{p.cor}</td>
-                            <td>{p.ano}</td>
-                            <td><Image src={p.imagem} alt="Foto de Carro" width={300} height={300}/></td>
-                            <td><Link href={`/Carros/${p.id}`}><Editar className="inline text-3xl"/></Link> | 
-                                <Link href="#" onClick={()=> handleDelete(p.id)}> <Excluir className="inline text-3xl"/></Link> </td>
+                    {carros.map((c) => (
+                        <tr key={c.id}>
+                            <td>{c.id}</td>
+                            <td>{c.nome}</td>
+                            <td>{c.marca}</td>
+                            <td>{c.cor}</td>
+                            <td>{c.ano}</td>
+                            <td><Image src={c.imagem} alt="Foto de Carro" width={200} height={200}/></td>
+                            <td><Link href={`/Carros/editar/${c.id}`}><Editar className="inline text-3xl"/></Link> | 
+                                <Link href="#" onClick={()=> handleDelete(c.id)}> <Excluir className="inline text-3xl"/></Link> </td>
                         </tr>
                     ))}
                 </tbody>

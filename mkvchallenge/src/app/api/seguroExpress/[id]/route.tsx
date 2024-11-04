@@ -2,48 +2,33 @@ import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import { CarrosProps } from "@/types/types";
 
-const databasePath = process.cwd() + "/src/data/database.json";
-
+// Função auxiliar para carregar carros do arquivo JSON
 async function getCarrosFromFile(): Promise<CarrosProps[]> {
-    const file = await fs.readFile(databasePath, "utf-8");
+    const file = await fs.readFile(process.cwd() + '/src/data/database.json', 'utf-8');
     return JSON.parse(file);
 }
 
-async function saveCarrosToFile(carros: CarrosProps[]): Promise<void> {
-    const listaJson = JSON.stringify(carros, null, 2);
-    await fs.writeFile(databasePath, listaJson);
-}
-
-// GET - Obter carro por ID
-export async function GET(request: Request, { params }: { params: { id: number } }) {
-    try {
-        const carros = await getCarrosFromFile();
-        const carro = carros.find(p => p.id === params.id);
-
-        if (!carro) {
-            return NextResponse.json({ msg: "Carro não encontrado." }, { status: 404 });
-        }
-
-        return NextResponse.json(carro);
-    } catch (error) {
-        return NextResponse.json(
-            { msg: "Falha na obtenção do carro: " + error },
-            { status: 500 }
-        );
-    }
+// Função auxiliar para salvar carros no arquivo JSON
+async function saveCarrosToFile(carros: CarrosProps[]) {
+    const listaJson = JSON.stringify(carros, null, 2); // `null, 2` para uma formatação legível
+    await fs.writeFile(process.cwd() + '/src/data/database.json', listaJson);
 }
 
 // DELETE - Excluir carro por ID
-export async function DELETE(request: Request, { params }: { params: { id: number } }) {
+export async function DELETE(request: Request, { params }: { params: { id: string } }) {
     try {
         const carros = await getCarrosFromFile();
-        const indice = carros.findIndex(p => p.id === params.id);
+        const id = parseInt(params.id); // Converte `id` para número para garantir a comparação
+
+        const indice = carros.findIndex(p => p.id === id);
 
         if (indice === -1) {
             return NextResponse.json({ msg: "Carro não encontrado para exclusão." }, { status: 404 });
         }
 
+        // Remove o carro do array
         carros.splice(indice, 1);
+        // Salva o novo array atualizado no arquivo
         await saveCarrosToFile(carros);
 
         return NextResponse.json({ msg: "Carro excluído com sucesso!" });

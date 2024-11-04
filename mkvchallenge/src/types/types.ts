@@ -4,6 +4,6 @@ export type CarrosProps = {
     nome: string;
     marca: string;
     cor: string;
-    ano: string;
+    ano: number;
     imagem: string
   };
