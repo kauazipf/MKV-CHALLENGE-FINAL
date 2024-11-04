@@ -62,9 +62,9 @@ const handleDelete = async (id:number)=>{
                             <td>{p.marca}</td>
                             <td>{p.cor}</td>
                             <td>{p.ano}</td>
-                            <td><Image src={p.imagem} alt="Foto de Carro" width={300} height={300} className=""/></td>
-                    <td><Link href={`/Carros/${p.id}`}><Editar className="inline text-3xl"/></Link> | 
-                        <Link href="#" onClick={()=> handleDelete(p.id)}> <Excluir className="inline text-3xl"/></Link> </td>
+                            <td><Image src={p.imagem} alt="Foto de Carro" width={300} height={300}/></td>
+                            <td><Link href={`/Carros/${p.id}`}><Editar className="inline text-3xl"/></Link> | 
+                                <Link href="#" onClick={()=> handleDelete(p.id)}> <Excluir className="inline text-3xl"/></Link> </td>
                         </tr>
                     ))}
                 </tbody>
