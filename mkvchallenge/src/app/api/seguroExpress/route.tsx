@@ -2,48 +2,56 @@ import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import { CarrosProps } from "@/types/types";
 
+const databasePath = process.cwd() + "/src/data/database.json";
 
-export async function GET() {
-
-    try {
-        const file = await fs.readFile(process.cwd() + '/src/data/database.json', 'utf-8');
-
-        const carros: CarrosProps[] = JSON.parse(file);
-
-        return NextResponse.json(carros);
-
-    } catch (error) {
-        return NextResponse.json({ error: "Falha na obtenção da lista de carros : " + error }, { status: 500 });
-    }
-
+async function getCarrosFromFile(): Promise<CarrosProps[]> {
+    const file = await fs.readFile(databasePath, "utf-8");
+    return JSON.parse(file);
 }
 
-export async function POST(request: Request) {
+async function saveCarrosToFile(carros: CarrosProps[]): Promise<void> {
+    const listaJson = JSON.stringify(carros, null, 2);
+    await fs.writeFile(databasePath, listaJson);
+}
 
+// GET - Obter todos os carros
+export async function GET() {
     try {
-
-        const file = await fs.readFile(process.cwd() + '/src/data/database.json', 'utf-8');
-
-        const carros: CarrosProps[] = JSON.parse(file);
-
-        const {nome, marca, cor, ano, imagem} = await request.json();
-        const carro = {nome, marca, cor, ano, imagem} as CarrosProps;
-
-
-        const novoId = ( parseInt(carros[carros.length - 1].id.toString() ) + 1);
-
-        carro.id = novoId;
-
-        carros.push(carro);
-
-        const listaJson = JSON.stringify(carros);
-
-        await fs.writeFile(process.cwd() + '/src/data/database.json', listaJson);
-
-        return NextResponse.json(carro, { status: 201 });
-
+        const carros = await getCarrosFromFile();
+        return NextResponse.json(carros);
     } catch (error) {
-        return  NextResponse.json({ error: "Falha na inserção do produto : " + error }, { status: 500 });
+        return NextResponse.json(
+            { error: "Falha na obtenção da lista de carros: " + error },
+            { status: 500 }
+        );
     }
+}
 
+// POST - Adicionar um novo carro
+export async function POST(request: Request) {
+    try {
+        const carros = await getCarrosFromFile();
+
+        const { nome, marca, cor, ano, imagem } = await request.json();
+        const novoId = carros.length > 0 ? carros[carros.length - 1].id + 1 : 1;
+
+        const novoCarro: CarrosProps = {
+            id: novoId,
+            nome,
+            marca,
+            cor,
+            ano,
+            imagem,
+        };
+
+        carros.push(novoCarro);
+        await saveCarrosToFile(carros);
+
+        return NextResponse.json(novoCarro, { status: 201 });
+    } catch (error) {
+        return NextResponse.json(
+            { error: "Falha na inserção do carro: " + error },
+            { status: 500 }
+        );
+    }
 }

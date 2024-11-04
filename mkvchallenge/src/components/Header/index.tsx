@@ -47,7 +47,7 @@ export default function Header(){
                 <Link href="/Carros" className="p-6 font-semibold text-white text-left block"> Carros </Link>
                 <Link href="/Chatbot" className="p-6 font-semibold text-white text-left block"> Chatbot </Link>
                 <Link href="/Servicos" className="p-6 font-semibold text-white text-left block"> Serviços </Link>
-                <Link href="/Integrantes" className="p-6 font-semibold text-white text-left block"> Participantes </Link>
+                <Link href="/Integrantes" className="p-6 font-semibold text-white text-left block"> Integrantes </Link>
             </div>
         </header>
     )

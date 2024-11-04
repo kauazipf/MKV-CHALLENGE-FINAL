@@ -2,75 +2,80 @@ import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import { CarrosProps } from "@/types/types";
 
-export async function GET(request:Request, {params}:{params:{id:number}}) {
+const databasePath = process.cwd() + "/src/data/database.json";
 
+async function getCarrosFromFile(): Promise<CarrosProps[]> {
+    const file = await fs.readFile(databasePath, "utf-8");
+    return JSON.parse(file);
+}
+
+async function saveCarrosToFile(carros: CarrosProps[]): Promise<void> {
+    const listaJson = JSON.stringify(carros, null, 2);
+    await fs.writeFile(databasePath, listaJson);
+}
+
+// GET - Obter carro por ID
+export async function GET(request: Request, { params }: { params: { id: number } }) {
     try {
-        const file = await fs.readFile( process.cwd() + '/src/data/database.json', 'utf-8');
-        
-        const carros:CarrosProps[] = JSON.parse(file);
+        const carros = await getCarrosFromFile();
+        const carro = carros.find(p => p.id === params.id);
 
-        const carro = carros.find( p => p.id ==  params.id);
+        if (!carro) {
+            return NextResponse.json({ msg: "Carro não encontrado." }, { status: 404 });
+        }
 
         return NextResponse.json(carro);
-
     } catch (error) {
-        return  NextResponse.json({msg:"Falha na obtenção do produto : "+error},{status:500});
+        return NextResponse.json(
+            { msg: "Falha na obtenção do carro: " + error },
+            { status: 500 }
+        );
     }
-
 }
 
-export async function DELETE(request:Request, {params}:{params:{id:number}}) {
-
+// DELETE - Excluir carro por ID
+export async function DELETE(request: Request, { params }: { params: { id: number } }) {
     try {
-        const file = await fs.readFile( process.cwd() + '/src/data/database.json', 'utf-8');
-        
-        const carros:CarrosProps[] = JSON.parse(file);
+        const carros = await getCarrosFromFile();
+        const indice = carros.findIndex(p => p.id === params.id);
 
-        const indice = carros.findIndex( p => p.id ==  params.id);
-
-        if(indice != -1){
-            carros.splice(indice,1);
-            
-            const listaJson = JSON.stringify(carros);
-
-            await fs.writeFile(process.cwd() + '/src/data/database.json', listaJson);
-
-            return NextResponse.json({msg:"Produto excluído com sucesso!"});
+        if (indice === -1) {
+            return NextResponse.json({ msg: "Carro não encontrado para exclusão." }, { status: 404 });
         }
 
-    } catch (error) {
-        return NextResponse.json({msg:"Falha na exclusão do produto : "+error},{status:500})
-    }
+        carros.splice(indice, 1);
+        await saveCarrosToFile(carros);
 
+        return NextResponse.json({ msg: "Carro excluído com sucesso!" });
+    } catch (error) {
+        return NextResponse.json(
+            { msg: "Falha na exclusão do carro: " + error },
+            { status: 500 }
+        );
+    }
 }
 
-export async function PUT(request: Request,{params}:{params:{id:number}}) {
-
+// PUT - Atualizar carro por ID
+export async function PUT(request: Request, { params }: { params: { id: number } }) {
     try {
+        const carros = await getCarrosFromFile();
+        const indice = carros.findIndex(p => p.id === params.id);
 
-        const file = await fs.readFile(process.cwd() + '/src/data/database.json', 'utf-8');
-
-        const carros: CarrosProps[] = JSON.parse(file);
-
-        const {nome,marca,cor,ano,imagem} = await request.json();
-
-       const indice = carros.findIndex( p => p.id ==  params.id);
-        if(indice != -1){
-            const carro = {nome,marca,cor,ano,imagem} as CarrosProps;
-
-            carro.id = params.id;
-
-            carros.splice(indice,1,carro);
-                        
-            const listaJson = JSON.stringify(carros);
-
-            await fs.writeFile(process.cwd() + '/src/data/database.json', listaJson);
-
-            return NextResponse.json({msg:"Produto atualizado com sucesso!"});
+        if (indice === -1) {
+            return NextResponse.json({ msg: "Carro não encontrado para atualização." }, { status: 404 });
         }
 
-    } catch (error) {
-        return  NextResponse.json({ error: "Falha na atualização do produto : " + error }, { status: 500 });
-    }
+        const { nome, marca, cor, ano, imagem } = await request.json();
+        const carroAtualizado = { id: params.id, nome, marca, cor, ano, imagem } as CarrosProps;
 
+        carros[indice] = carroAtualizado;
+        await saveCarrosToFile(carros);
+
+        return NextResponse.json({ msg: "Carro atualizado com sucesso!" });
+    } catch (error) {
+        return NextResponse.json(
+            { error: "Falha na atualização do carro: " + error },
+            { status: 500 }
+        );
+    }
 }
