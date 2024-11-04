@@ -1,6 +1,6 @@
-import fotoKaua from './../../image/fotoKaua.png'
-import fotoMarcelo from './../../image/fotoMarcelo.png'
-import fotoVictor from './../../image/fotoVictor.png'
+import fotoKaua from './../..//../public/images/fotoKaua.png'
+import fotoMarcelo from './../..//../public/images/fotoMarcelo.png'
+import fotoVictor from './../..//../public/images/fotoVictor.png'
 import Image from 'next/image'
 
 export default function Participantes(){
@@ -11,7 +11,7 @@ export default function Participantes(){
                 <h1>Participantes</h1>
             </div>
 
-            <div>
+            <div className='inline-flex justify-center items-center content-center'>
                 <div className="w-[380px] h-[480px] p-8 border flex flex-col gap-2 justify-center items-center border-black rounded-lg shadow-md bg-white">
                     <Image className=" max-h-[70%] rounded-full" src={fotoKaua} alt="Integrante Kauã" width={200} height={200} />
                     <h2 className="mt-2 text-lg font-semibold">Kauã Fermino Zipf</h2>

@@ -1,26 +1,23 @@
 'use client'
 
 import Image from "next/image";
-import logo from './../../../public/images/logo.png'
-import imgMenu from './../../../public/images/menu.png'
-import imgLogin from './../../../public/images/login.png'
+import logo from './../../../public/images/logo.png';
+import imgMenu from './../../../public/images/menu.png';
+import imgLogin from './../../../public/images/login.png';
 import Link from "next/link";
 import { useState } from "react";
 
-export default function Header(){
-
+export default function Header() {
     const [menuStyle, setMenuStyle] = useState({ display: 'none' });
 
     const toggleMenu = () => {
-        if (menuStyle.display === 'block') {
-        setMenuStyle({ display: 'none' });
-        } else {
-        setMenuStyle({ display: 'block' });
-        }
+        setMenuStyle(prevStyle => ({
+            display: prevStyle.display === 'block' ? 'none' : 'block'
+        }));
     };
 
     return (
-        <header className="max-h-[50vh] max-w-[100vw] bg-backgroundBlue relative p-14 text-center"> 
+        <header className="max-h-[50vh] max-w-[100vw] bg-backgroundBlue relative p-14 text-center">
             <Image 
                 src={imgMenu} 
                 alt="Imagem de menu" 
@@ -50,5 +47,5 @@ export default function Header(){
                 <Link href="/Integrantes" className="p-6 font-semibold text-white text-left block"> Integrantes </Link>
             </div>
         </header>
-    )
+    );
 }
