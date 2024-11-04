@@ -65,8 +65,8 @@ export async function PUT(request: Request, { params }: { params: { id: number }
             return NextResponse.json({ msg: "Carro não encontrado para atualização." }, { status: 404 });
         }
 
-        const { nome, marca, cor, ano, imagem } = await request.json();
-        const carroAtualizado = { id: params.id, nome, marca, cor, ano, imagem } as CarrosProps;
+        const { nome, marca, cor, ano, imagem} = await request.json();
+        const carroAtualizado = { id: params.id, nome, marca, cor, ano, imagem} as CarrosProps;
 
         carros[indice] = carroAtualizado;
         await saveCarrosToFile(carros);

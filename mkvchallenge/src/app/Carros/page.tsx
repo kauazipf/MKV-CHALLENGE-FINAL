@@ -5,17 +5,22 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { GrEdit as Editar } from "react-icons/gr";
 import { RiDeleteBin2Line as Excluir } from "react-icons/ri";
+import Image from "next/image";
 
 export default function Carros() {
 
+    
     const [carros, setProdutos] = useState<CarrosProps[]>([]);
     
-    const chamadaApi = async ()=>{
-        const response = await fetch("/api/seguroExpress");
-        const data = await response.json();
-        
-        setProdutos(data);
-    }
+    const chamadaApi = async () => {
+        try {
+            const response = await fetch("/api/seguroExpress");
+            const data = await response.json();
+            setProdutos(data);
+        } catch (error) {
+            console.error("Erro ao analisar JSON:", error);
+        }
+    };
 
     useEffect(() => {
         chamadaApi();
@@ -37,9 +42,7 @@ const handleDelete = async (id:number)=>{
 
     return (
         <div>
-            <h2>Carros</h2>
-
-            <table className="tabelaCarros">
+            <table className="w-[99vw] text-center h-[60vh]">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -59,7 +62,7 @@ const handleDelete = async (id:number)=>{
                             <td>{p.marca}</td>
                             <td>{p.cor}</td>
                             <td>{p.ano}</td>
-                            <td>{p.imagem}</td>
+                            <td><Image src={p.imagem} alt="Foto de Carro" width={300} height={300} className=""/></td>
                     <td><Link href={`/Carros/${p.id}`}><Editar className="inline text-3xl"/></Link> | 
                         <Link href="#" onClick={()=> handleDelete(p.id)}> <Excluir className="inline text-3xl"/></Link> </td>
                         </tr>

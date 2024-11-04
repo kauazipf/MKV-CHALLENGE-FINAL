@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     try {
         const carros = await getCarrosFromFile();
 
-        const { nome, marca, cor, ano, imagem } = await request.json();
+        const { nome, marca, cor, ano, imagem} = await request.json();
         const novoId = carros.length > 0 ? carros[carros.length - 1].id + 1 : 1;
 
         const novoCarro: CarrosProps = {
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
             marca,
             cor,
             ano,
-            imagem,
+            imagem
         };
 
         carros.push(novoCarro);
