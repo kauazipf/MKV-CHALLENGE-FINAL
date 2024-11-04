@@ -6,7 +6,7 @@ import { CarrosProps } from "@/types/types";
 export async function GET() {
 
     try {
-        const file = await fs.readFile(process.cwd() + '/src/data/banco.json', 'utf-8');
+        const file = await fs.readFile(process.cwd() + '/src/data/database.json', 'utf-8');
 
         const carros: CarrosProps[] = JSON.parse(file);
 
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
 
     try {
 
-        const file = await fs.readFile(process.cwd() + '/src/data/banco.json', 'utf-8');
+        const file = await fs.readFile(process.cwd() + '/src/data/database.json', 'utf-8');
 
         const carros: CarrosProps[] = JSON.parse(file);
 
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
 
         const listaJson = JSON.stringify(carros);
 
-        await fs.writeFile(process.cwd() + '/src/data/banco.json', listaJson);
+        await fs.writeFile(process.cwd() + '/src/data/database.json', listaJson);
 
         return NextResponse.json(carro, { status: 201 });
 

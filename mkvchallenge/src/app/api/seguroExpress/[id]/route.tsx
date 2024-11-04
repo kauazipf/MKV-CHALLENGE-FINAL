@@ -5,7 +5,7 @@ import { CarrosProps } from "@/types/types";
 export async function GET(request:Request, {params}:{params:{id:number}}) {
 
     try {
-        const file = await fs.readFile( process.cwd() + '/src/data/banco.json', 'utf-8');
+        const file = await fs.readFile( process.cwd() + '/src/data/database.json', 'utf-8');
         
         const carros:CarrosProps[] = JSON.parse(file);
 
@@ -22,7 +22,7 @@ export async function GET(request:Request, {params}:{params:{id:number}}) {
 export async function DELETE(request:Request, {params}:{params:{id:number}}) {
 
     try {
-        const file = await fs.readFile( process.cwd() + '/src/data/banco.json', 'utf-8');
+        const file = await fs.readFile( process.cwd() + '/src/data/database.json', 'utf-8');
         
         const carros:CarrosProps[] = JSON.parse(file);
 
@@ -33,7 +33,7 @@ export async function DELETE(request:Request, {params}:{params:{id:number}}) {
             
             const listaJson = JSON.stringify(carros);
 
-            await fs.writeFile(process.cwd() + '/src/data/banco.json', listaJson);
+            await fs.writeFile(process.cwd() + '/src/data/database.json', listaJson);
 
             return NextResponse.json({msg:"Produto excluído com sucesso!"});
         }
@@ -48,7 +48,7 @@ export async function PUT(request: Request,{params}:{params:{id:number}}) {
 
     try {
 
-        const file = await fs.readFile(process.cwd() + '/src/data/banco.json', 'utf-8');
+        const file = await fs.readFile(process.cwd() + '/src/data/database.json', 'utf-8');
 
         const carros: CarrosProps[] = JSON.parse(file);
 
@@ -64,7 +64,7 @@ export async function PUT(request: Request,{params}:{params:{id:number}}) {
                         
             const listaJson = JSON.stringify(carros);
 
-            await fs.writeFile(process.cwd() + '/src/data/banco.json', listaJson);
+            await fs.writeFile(process.cwd() + '/src/data/database.json', listaJson);
 
             return NextResponse.json({msg:"Produto atualizado com sucesso!"});
         }
