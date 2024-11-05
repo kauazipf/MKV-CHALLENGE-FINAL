@@ -41,26 +41,32 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
 }
 
 // PUT - Atualizar carro por ID
-export async function PUT(request: Request, { params }: { params: { id: number } }) {
+export async function PUT(request: Request, { params }: { params: { id: string } }) {
     try {
         const carros = await getCarrosFromFile();
-        const indice = carros.findIndex(p => p.id === params.id);
+        const id = Number(params.id);
+        const indice = carros.findIndex(p => p.id === id);
 
         if (indice === -1) {
             return NextResponse.json({ msg: "Carro não encontrado para atualização." }, { status: 404 });
         }
 
-        const { nome, marca, cor, ano, imagem} = await request.json();
-        const carroAtualizado = { id: params.id, nome, marca, cor, ano, imagem} as CarrosProps;
+        const { nome, marca, cor, ano, imagem } = await request.json();
+        if (!nome || !marca || !cor || !ano) {
+            return NextResponse.json({ msg: "Dados incompletos para atualização do carro." }, { status: 400 });
+        }
 
+        const carroAtualizado = { id, nome, marca, cor, ano, imagem };
         carros[indice] = carroAtualizado;
         await saveCarrosToFile(carros);
 
         return NextResponse.json({ msg: "Carro atualizado com sucesso!" });
     } catch (error) {
+        console.error("Erro ao atualizar carro:", error);
         return NextResponse.json(
             { error: "Falha na atualização do carro: " + error },
             { status: 500 }
         );
     }
 }
+
